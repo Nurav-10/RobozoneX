@@ -4,10 +4,44 @@ import { useTheme } from "next-themes";
 import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
 import BgElement from "./components/BgElement";
+import { useUser } from "@clerk/nextjs";
+import { useEffect, useState } from "react";
+import User from "@/models/userModel";
 
+
+interface UserProfile{
+  _id:String,
+  email:String,
+  username:String,
+  age?:Number,
+  college?:null,
+  clerkId:String
+}
 
 const page = () => {
+  const {user,isSignedIn}=useUser()
   const {theme,setTheme}=useTheme()
+  const [userProfile,setUserProfile]=useState<UserProfile|null>(null)
+
+  useEffect(()=>{
+    if(!user) return;
+
+    const saveUser=async()=>{
+      const response=await fetch('/api/user/create',{
+        method:'POST',
+        headers:{'Content-Type':'application.json'}
+      }).then(res=>res.json())
+      if(response.ok){
+        setUserProfile(response.user)
+        return;
+      }
+      else
+        console.log(response.message,response.user)
+    }
+
+    saveUser()
+  },[user])
+
   return (
     <div className={`${theme==='light'?'bg-gradient-to-bl from-orange-100 to-cyan-100 text-zinc-950':'bg-zinc-950'} relative min-h-screen min-w-screen z-0 px-4 overflow-x-hidden`}>
       <Navbar />

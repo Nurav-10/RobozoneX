@@ -51,7 +51,6 @@ const Navbar = () => {
   ];
   const { theme, setTheme } = useTheme();
   const {user,isSignedIn}=useUser()
-  console.log(user,isSignedIn)
   return (
     <div className={`md:w-[70vw] sm:w-[75vw] w-[95vw] mx-auto fixed left-[50%] top-3 -translate-x-1/2 ${notoSans.className} font-[500] backdrop-blur-[5px] z-9999`}>
       <header className={`flex justify-between py-2 sm:pr-6 pr-4 sm:pl-4 bg-orange-300/5 rounded-full border border-orange-400/30 z-999 items-center `}>
